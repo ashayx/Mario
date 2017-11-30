@@ -1,0 +1,29 @@
+{
+	"groups":[
+	{
+		"keys":"",
+		"name":"preload"
+	}],
+	"resources":[
+	{
+		"name": "smallMario_json",
+		"type": "json",
+		"url": "assets/smallMario.json"
+	},
+	{
+		"name": "smallMario_png",
+		"type": "image",
+		"url": "assets/smallMario.png"
+	},
+	{
+		"name": "sprite",
+		"type": "sheet",
+		"url": "assets/sprite.json"
+	},
+	{
+		"name": "sprite_png",
+		"type": "image",
+		"url": "assets/sprite.png"
+	}
+	]
+}
