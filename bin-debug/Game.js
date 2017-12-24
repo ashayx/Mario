@@ -15,48 +15,59 @@ var Game = (function (_super) {
     __extends(Game, _super);
     function Game() {
         var _this = _super.call(this) || this;
-        _this.isRun = false;
-        _this.status = 'stand';
+        _this.setup();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageFunc, _this);
         return _this;
     }
+    Game.prototype.setup = function () {
+        var _this = this;
+        this.setUpInputs = {
+            keydowns: {},
+            actions: {},
+        };
+        //event
+        window.addEventListener('keydown', function (event) {
+            _this.setUpInputs.keydowns[event.key] = 'down';
+        });
+        window.addEventListener('keyup', function (event) {
+            _this.setUpInputs.keydowns[event.key] = 'up';
+        });
+    };
+    //给按键key绑定函数
+    Game.prototype.registerAction = function (key, callback) {
+        this.setUpInputs.actions[key] = callback;
+    };
     Game.prototype.onAddToStageFunc = function () {
         var _this = this;
         this.mario = new Mario();
         this.addChild(this.mario);
-        this.mario.scaleX = this.mario.scaleY = 5;
         this.mario.x = 100;
-        this.mario.y = 200;
+        this.mario.y = 400;
         log(this.mario.x, this.mario.y);
         // 计时器
         this.runLoopTimer();
+        this.registerAction('a', function () {
+            _this.mario.moveLeft();
+        });
+        this.registerAction('d', function () {
+            _this.mario.moveRight();
+        });
+        this.registerAction('k', function () {
+            _this.mario.jump();
+        });
         // 按键
         // 状态应该是Mario里的，按键改变状态，runloop里状态操作方法
-        window.addEventListener('keydown', function (event) {
-            if (!_this.isRun) {
-                _this.isRun = true;
-                _this.mario.run();
-            }
-            if (event.keyCode == 37) {
-                // mario.move('left')
-                _this.status = 'moveLeft';
-            }
-            else if (event.keyCode == 39) {
-                // mario.move('right')
-                _this.status = 'moveRight';
-            }
-            else if (event.keyCode == 38) {
-                // this.ChangeBgScene('bg1')
-            }
-            else if (event.keyCode == 40) {
-                // this.ChangeBgScene('bg2')
-            }
-        });
-        window.addEventListener('keyup', function (event) {
-            _this.isRun = false;
-            _this.status = 'stand';
-            _this.mario.stand();
-        });
+        // window.addEventListener('keydown', (event) => {
+        //     // log(event)
+        //     if(event.key == 'k') {
+        //         this.mario.jump()
+        //     }
+        // })
+        // window.addEventListener('keyup', (event) => {
+        //     // this.isRun = false 
+        //     // this.status = 'stand'
+        //     this.mario.stand()
+        // })
     };
     Game.prototype.runLoopTimer = function () {
         this.gameTimer = new egret.Timer(1000 / 60, -1);
@@ -64,15 +75,22 @@ var Game = (function (_super) {
         this.gameTimer.start();
     };
     Game.prototype.timerFunc = function () {
-        if (this.status == 'moveRight') {
-            this.mario.moveRight();
+        var actions = Object.keys(this.setUpInputs.actions);
+        for (var i = 0; i < actions.length; i++) {
+            var key = actions[i];
+            var status_1 = this.setUpInputs.keydowns[key];
+            if (status_1 == 'down') {
+                // 如果按键被按下, 调用注册的 action
+                this.setUpInputs.actions[key]('down');
+                log('keyStatus down');
+            }
+            else if (status_1 == 'up') {
+                this.setUpInputs.keydowns[key] = null;
+                log('keyStatus up');
+                this.mario.stand();
+            }
         }
-        else if (this.status == 'moveLeft') {
-            this.mario.moveLeft();
-        }
-        else {
-            this.mario.stand();
-        }
+        this.mario.fallDown();
     };
     return Game;
 }(Sprite));

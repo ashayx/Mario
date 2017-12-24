@@ -1,49 +1,67 @@
 class Game extends Sprite{
     constructor() {
         super()
-        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStageFunc, this);
+        this.setup()
+        this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStageFunc, this)
     }
     private mario
-    private isRun: boolean = false
-    private status: string = 'stand'
+    private setUpInputs
+    private setup() {
+        this.setUpInputs = {
+            keydowns: {},
+            actions: {},
+        }
+        //event
+        window.addEventListener('keydown', (event) => {
+            this.setUpInputs.keydowns[event.key] = 'down'
+        })
+
+        window.addEventListener('keyup', (event) => {
+            this.setUpInputs.keydowns[event.key] = 'up'
+        })
+
+    }
+    //给按键key绑定函数
+    private registerAction(key, callback) {
+        this.setUpInputs.actions[key] = callback
+    }
     private onAddToStageFunc() {
  
         this.mario = new Mario()
         this.addChild(this.mario)
-        this.mario.scaleX = this.mario.scaleY = 5
         this.mario.x = 100
-        this.mario.y = 200
+        this.mario.y = 400
         log(this.mario.x,this.mario.y)
 
 
         // 计时器
         this.runLoopTimer()
 
+        this.registerAction('a', ()=>{
+            this.mario.moveLeft()
+        })
+        this.registerAction('d', () => {
+            this.mario.moveRight()
+        })
+        this.registerAction('k', () => {
+            this.mario.jump()
+        })
         // 按键
         // 状态应该是Mario里的，按键改变状态，runloop里状态操作方法
-        window.addEventListener('keydown', (event) => {
-            if(!this.isRun) {
-                this.isRun = true
-                this.mario.run()
-            }
-            
-            if (event.keyCode == 37) {
-                // mario.move('left')
-                this.status = 'moveLeft'
-            } else if (event.keyCode == 39) {
-                // mario.move('right')
-                this.status = 'moveRight'
-            } else if (event.keyCode == 38) {
-                // this.ChangeBgScene('bg1')
-            } else if (event.keyCode == 40) {
-                // this.ChangeBgScene('bg2')
-            }
-        })
-        window.addEventListener('keyup', (event) => {
-            this.isRun = false 
-            this.status = 'stand'
-            this.mario.stand()
-        })
+        // window.addEventListener('keydown', (event) => {
+        //     // log(event)
+         
+
+        //     if(event.key == 'k') {
+        //         this.mario.jump()
+        //     }
+
+        // })
+        // window.addEventListener('keyup', (event) => {
+        //     // this.isRun = false 
+        //     // this.status = 'stand'
+        //     this.mario.stand()
+        // })
     }
     
     private gameTimer: egret.Timer
@@ -55,13 +73,21 @@ class Game extends Sprite{
 
     }
     private timerFunc() {
-        if (this.status == 'moveRight') {
-            this.mario.moveRight()
-        } else if (this.status == 'moveLeft') {
-            this.mario.moveLeft()
-        } else {
-            this.mario.stand()
+        let actions = Object.keys(this.setUpInputs.actions)
+        for (let i = 0; i < actions.length; i++) {
+            let key = actions[i]
+            let status = this.setUpInputs.keydowns[key]
+            if (status == 'down') {
+                // 如果按键被按下, 调用注册的 action
+                this.setUpInputs.actions[key]('down')
+                log('keyStatus down')
+            } else if (status == 'up') {
+                this.setUpInputs.keydowns[key] = null
+                log('keyStatus up')
+                this.mario.stand()
+            }
         }
+        this.mario.fallDown()
     }
     
 
