@@ -15,6 +15,7 @@ var Game = (function (_super) {
     __extends(Game, _super);
     function Game() {
         var _this = _super.call(this) || this;
+        _this.jiansu = false;
         _this.setup();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageFunc, _this);
         return _this;
@@ -39,35 +40,49 @@ var Game = (function (_super) {
     };
     Game.prototype.onAddToStageFunc = function () {
         var _this = this;
+        this.bg = this.createBitmap('1-1_png');
+        this.addChild(this.bg);
         this.mario = new Mario();
         this.addChild(this.mario);
         this.mario.x = 100;
-        this.mario.y = 400;
-        log(this.mario.x, this.mario.y);
+        this.mario.y = 240 - 32 - this.mario.height / 2;
+        log(this.mario.x, this.mario.y, this.mario.height / 2);
         // 计时器
         this.runLoopTimer();
-        this.registerAction('a', function () {
-            _this.mario.moveLeft();
+        // 注册按键
+        this.registerAction('a', function (keyStatus) {
+            if (keyStatus == 'down') {
+                if (_this.mario.speed > config.maxSpeedx / 1.5 && config.direction == 1) {
+                    config.isBrake = true;
+                }
+                else {
+                    _this.mario.move(-1);
+                }
+            }
+            else if (keyStatus == 'up') {
+                config.isInertia = true;
+            }
+            config.direction = -1;
         });
-        this.registerAction('d', function () {
-            _this.mario.moveRight();
+        this.registerAction('d', function (keyStatus) {
+            if (keyStatus == 'down') {
+                // 速度大于最大速度一半，方向相反，启动急刹车
+                if (_this.mario.speed > config.maxSpeedx / 1.5 && config.direction == -1) {
+                    config.isBrake = true;
+                }
+                else {
+                    _this.mario.move(1);
+                }
+            }
+            else if (keyStatus == 'up') {
+                // 松开按键惯性刹车
+                config.isInertia = true;
+            }
+            config.direction = 1;
         });
         this.registerAction('k', function () {
             _this.mario.jump();
         });
-        // 按键
-        // 状态应该是Mario里的，按键改变状态，runloop里状态操作方法
-        // window.addEventListener('keydown', (event) => {
-        //     // log(event)
-        //     if(event.key == 'k') {
-        //         this.mario.jump()
-        //     }
-        // })
-        // window.addEventListener('keyup', (event) => {
-        //     // this.isRun = false 
-        //     // this.status = 'stand'
-        //     this.mario.stand()
-        // })
     };
     Game.prototype.runLoopTimer = function () {
         this.gameTimer = new egret.Timer(1000 / 60, -1);
@@ -82,14 +97,29 @@ var Game = (function (_super) {
             if (status_1 == 'down') {
                 // 如果按键被按下, 调用注册的 action
                 this.setUpInputs.actions[key]('down');
-                log('keyStatus down');
+                this.jiansu = false;
             }
             else if (status_1 == 'up') {
+                this.setUpInputs.actions[key]('up');
                 this.setUpInputs.keydowns[key] = null;
-                log('keyStatus up');
-                this.mario.stand();
             }
         }
+        // 惯性减速
+        if (config.isInertia) {
+            this.mario.inertia(config.direction);
+        }
+        // 急刹车
+        if (config.isBrake) {
+            // this.mario.inertia(config.direction)
+            this.mario.skidding(config.direction);
+        }
+        // 场景移动
+        if (this.mario.x >= 110) {
+            // scene 移动
+            this.mario.x = 110;
+            this.bg.x -= this.mario.speed;
+        }
+        log(this.mario.status, config.direction, this.mario.speed, this.mario.x);
         this.mario.fallDown();
     };
     return Game;

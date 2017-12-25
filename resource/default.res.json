@@ -24,6 +24,11 @@
 		"name": "sprite_png",
 		"type": "image",
 		"url": "assets/sprite.png"
+	},
+	{
+		"name": "1-1_png",
+		"type": "image",
+		"url": "assets/1-1.png"
 	}
 	]
 }
