@@ -5,12 +5,12 @@ const config = {
     ax: .2, // 水平加速度
     maxSpeedx: 3.5, // 水平最大速度
     jumpvy: 6, // 上跳速度
-    jumpHeight: 6,
+    jumpHeight: 5.5,
     isInertia: false, 
     isBrake: false,
     direction: 1,
 }
-class Mario extends Sprite {
+class Mario extends Page {
     private mario
     public status 
     private scaleNumber: number = 1
@@ -42,17 +42,19 @@ class Mario extends Sprite {
         this.mario = this.createBitmap('sprite.MarioStanding')
         this.addChild(this.mario)
     }
+    // run sprite 
     public run() {
         
         if (this.status != 'run' && this.mario) {
             this.removeChild(this.mario)
             this.status = 'run'
             
-            let marioData = RES.getRes("smallMario_json")
-            let marioTextrue = RES.getRes("smallMario_png")
-            let marioFactory = new egret.MovieClipDataFactory(marioData, marioTextrue)
-            this.mario = new egret.MovieClip(marioFactory.generateMovieClipData("smallMario"))
-            this.mario.gotoAndPlay(0, -1)
+            // let marioData = RES.getRes("smallMario_json")
+            // let marioTextrue = RES.getRes("smallMario_png")
+            // let marioFactory = new egret.MovieClipDataFactory(marioData, marioTextrue)
+            // this.mario = new egret.MovieClip(marioFactory.generateMovieClipData("smallMario"))
+            // this.mario.gotoAndPlay(0, -1)
+            this.mario = this.createMovieClip('smallMario')
             
             this.addChild(this.mario)
         }

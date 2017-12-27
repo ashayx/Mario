@@ -1,4 +1,4 @@
-class Game extends Sprite{
+class Game extends Page{
     constructor() {
         super()
         this.setup()
@@ -29,7 +29,7 @@ class Game extends Sprite{
     private onAddToStageFunc() {
         this.bg = this.createBitmap('1-1_png')
 
-        this.addChild(this.bg)
+        // this.addChild(this.bg)
         
         this.mario = new Mario()
         this.addChild(this.mario)
@@ -72,6 +72,9 @@ class Game extends Sprite{
         })
         this.registerAction('k', () => {
             this.mario.jump()
+        })
+        this.registerAction('h', () => {
+            this.changePage(new Map())
         })
 
     }

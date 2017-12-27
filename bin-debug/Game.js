@@ -41,7 +41,7 @@ var Game = (function (_super) {
     Game.prototype.onAddToStageFunc = function () {
         var _this = this;
         this.bg = this.createBitmap('1-1_png');
-        this.addChild(this.bg);
+        // this.addChild(this.bg)
         this.mario = new Mario();
         this.addChild(this.mario);
         this.mario.x = 100;
@@ -83,6 +83,9 @@ var Game = (function (_super) {
         this.registerAction('k', function () {
             _this.mario.jump();
         });
+        this.registerAction('h', function () {
+            _this.changePage(new Map());
+        });
     };
     Game.prototype.runLoopTimer = function () {
         this.gameTimer = new egret.Timer(1000 / 60, -1);
@@ -123,5 +126,5 @@ var Game = (function (_super) {
         this.mario.fallDown();
     };
     return Game;
-}(Sprite));
+}(Page));
 __reflect(Game.prototype, "Game");

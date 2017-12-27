@@ -1,0 +1,41 @@
+{"mc":{
+	"CoinForBlackBG":{
+		"frameRate":24,
+		"events":[
+			
+			],
+		"frames":[
+			
+			{
+			"res":"3E0BDAEB",
+			"x":0,
+			"y":0
+			},
+			{
+			"res":"DC8DABD4",
+			"x":0,
+			"y":0
+			},
+			{
+			"res":"EB2C6BD4",
+			"x":0,
+			"y":0
+			},
+			{
+			"res":"DC8DABD4",
+			"x":0,
+			"y":0
+			},
+			{
+			"res":"3E0BDAEB",
+			"x":0,
+			"y":0,
+			"duration":2
+			}
+			]
+}},
+	"res":{
+		"EB2C6BD4":{"x":0,"y":0,"w":10,"h":14},
+		"DC8DABD4":{"x":0,"y":16,"w":10,"h":14},
+		"3E0BDAEB":{"x":12,"y":0,"w":10,"h":14}
+	}}

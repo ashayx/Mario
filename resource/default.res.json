@@ -16,6 +16,26 @@
 		"url": "assets/smallMario.png"
 	},
 	{
+		"name": "CoinForBlackBG_json",
+		"type": "json",
+		"url": "assets/CoinForBlackBG.json"
+	},
+	{
+		"name": "CoinForBlackBG_png",
+		"type": "image",
+		"url": "assets/CoinForBlackBG.png"
+	},
+	{
+		"name": "QuestionBlock_json",
+		"type": "json",
+		"url": "assets/QuestionBlock.json"
+	},
+	{
+		"name": "QuestionBlock_png",
+		"type": "image",
+		"url": "assets/QuestionBlock.png"
+	},
+	{
 		"name": "sprite",
 		"type": "sheet",
 		"url": "assets/sprite.json"

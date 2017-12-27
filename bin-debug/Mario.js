@@ -18,7 +18,7 @@ var config = {
     ax: .2,
     maxSpeedx: 3.5,
     jumpvy: 6,
-    jumpHeight: 6,
+    jumpHeight: 5.5,
     isInertia: false,
     isBrake: false,
     direction: 1,
@@ -53,15 +53,17 @@ var Mario = (function (_super) {
         this.mario = this.createBitmap('sprite.MarioStanding');
         this.addChild(this.mario);
     };
+    // run sprite 
     Mario.prototype.run = function () {
         if (this.status != 'run' && this.mario) {
             this.removeChild(this.mario);
             this.status = 'run';
-            var marioData = RES.getRes("smallMario_json");
-            var marioTextrue = RES.getRes("smallMario_png");
-            var marioFactory = new egret.MovieClipDataFactory(marioData, marioTextrue);
-            this.mario = new egret.MovieClip(marioFactory.generateMovieClipData("smallMario"));
-            this.mario.gotoAndPlay(0, -1);
+            // let marioData = RES.getRes("smallMario_json")
+            // let marioTextrue = RES.getRes("smallMario_png")
+            // let marioFactory = new egret.MovieClipDataFactory(marioData, marioTextrue)
+            // this.mario = new egret.MovieClip(marioFactory.generateMovieClipData("smallMario"))
+            // this.mario.gotoAndPlay(0, -1)
+            this.mario = this.createMovieClip('smallMario');
             this.addChild(this.mario);
         }
     };
@@ -134,5 +136,5 @@ var Mario = (function (_super) {
         }
     };
     return Mario;
-}(Sprite));
+}(Page));
 __reflect(Mario.prototype, "Mario");

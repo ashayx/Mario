@@ -1,0 +1,5 @@
+class CreateMap {
+    constructor() {
+        
+    }
+}

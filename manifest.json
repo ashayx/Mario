@@ -8,10 +8,12 @@
 		"promise/bin/promise.js"
 	],
 	"game": [
-		"bin-debug/Sprite.js",
+		"bin-debug/Page.js",
+		"bin-debug/CreateMap.js",
 		"bin-debug/Game.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
+		"bin-debug/Map.js",
 		"bin-debug/Mario.js"
 	]
 }
