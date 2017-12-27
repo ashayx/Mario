@@ -131,7 +131,8 @@ class Main extends egret.DisplayObjectContainer {
         
         // this.addChild(new Game())
         this.addChild(new Map())
-        
+        // this.addChild(new CreateMap())
+
     }
 
 
