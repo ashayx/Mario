@@ -13,14 +13,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Map = (function (_super) {
     __extends(Map, _super);
-    function Map() {
+    function Map(mapData) {
         var _this = _super.call(this) || this;
-        _this.map = [
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-        ];
+        _this.map = mapData;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStageFunc, _this);
         return _this;
     }

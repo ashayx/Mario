@@ -41,7 +41,7 @@ var Game = (function (_super) {
     Game.prototype.onAddToStageFunc = function () {
         var _this = this;
         this.bg = this.createBitmap('1-1_png');
-        // this.addChild(this.bg)
+        this.addChild(this.bg);
         this.mario = new Mario();
         this.addChild(this.mario);
         this.mario.x = 100;
@@ -84,7 +84,7 @@ var Game = (function (_super) {
             _this.mario.jump();
         });
         this.registerAction('h', function () {
-            _this.changePage(new Map());
+            // this.changePage(new Map(this.mapData))
         });
     };
     Game.prototype.runLoopTimer = function () {

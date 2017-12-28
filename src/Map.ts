@@ -1,13 +1,8 @@
 class Map extends Page{
     public map: Array<number>
-    constructor() {
+    constructor(mapData) {
         super()
-        this.map = [
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-            3, -1, 2, 3, 4, 1, 1, 1, 1, 1, 1, 1, -1, 0, 0,
-        ]
+        this.map = mapData
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStageFunc, this)
     }
 
