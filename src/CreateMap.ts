@@ -8,6 +8,7 @@ class CreateMap extends Page {
     private mapData
     private spriteIndex: number = -1
     private onAddToStage() { 
+        log('创建完成按j')
         const sprite = {
             '-1': 'empty',
             '0': 'block',
