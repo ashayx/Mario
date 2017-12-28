@@ -22,6 +22,7 @@ var CreateMap = (function (_super) {
     }
     CreateMap.prototype.onAddToStage = function () {
         var _this = this;
+        log('创建完成按j');
         var sprite = {
             '-1': 'empty',
             '0': 'block',
@@ -49,6 +50,7 @@ var CreateMap = (function (_super) {
             }
             else if (e.key == 'j') {
                 _this.changePage(new Map(_this.mapData));
+                log(JSON.stringify(_this.mapData));
             }
             // log(this.map.x)
         });

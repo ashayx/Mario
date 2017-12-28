@@ -116,9 +116,9 @@ var Main = (function (_super) {
      * Create a game scene
      */
     Main.prototype.createGameScene = function () {
-        // this.addChild(new Game())
+        this.addChild(new Game());
         // this.addChild(new Map())
-        this.addChild(new CreateMap());
+        // this.addChild(new CreateMap())
     };
     return Main;
 }(egret.DisplayObjectContainer));

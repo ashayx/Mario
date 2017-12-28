@@ -37,6 +37,7 @@ class CreateMap extends Page {
                 this.map.x += 16
             } else if (e.key == 'j') {
                 this.changePage(new Map(this.mapData))
+                log(JSON.stringify(this.mapData))
             }
             // log(this.map.x)
         })
