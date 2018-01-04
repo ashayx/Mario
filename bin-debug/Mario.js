@@ -22,19 +22,22 @@ var config = {
     isInertia: false,
     isBrake: false,
     direction: 1,
+    tileMapX: 0,
 };
 var Mario = (function (_super) {
     __extends(Mario, _super);
-    function Mario() {
+    function Mario(map) {
         var _this = _super.call(this) || this;
         _this.scaleNumber = 1;
         _this.g = 1;
+        _this.map = map;
         _this.init();
         return _this;
     }
     Mario.prototype.init = function () {
         this.mario = this.createBitmap('sprite.MarioStanding');
         this.addChild(this.mario);
+        log(this.height);
         this.setup();
     };
     Mario.prototype.setup = function () {
@@ -43,6 +46,7 @@ var Mario = (function (_super) {
         this.anchorOffsetX = this.mario.width / 2;
         this.anchorOffsetY = this.mario.height / 2;
         this.status = 'stand';
+        this.tilePosition = this.getBlockPosition();
     };
     Mario.prototype.stand = function () {
         this.speed = 0;
@@ -113,6 +117,17 @@ var Mario = (function (_super) {
         this.flipX(this.scaleNumber * direction);
         this.x += this.speed * direction;
         // log('move')
+        // for (let i = 0; i < this.tilePosition.length; i++) {
+        //     let e = this.tilePosition[i]
+        //     if (e.x + config.tileMapX > 0 && e.x + config.tileMapX < 240) { // 判断在屏幕内
+        //         if (this.down >= e.y && this.top <= e.y + 16) {
+        //             if (this.right > e.x + config.tileMapX && this.left < e.x + config.tileMapX + 16) {
+        //                 this.x = e.x
+        //                 log('撞墙')
+        //             }
+        //         }
+        //     }
+        // }
     };
     Mario.prototype.jump = function () {
         // 向上弹跳速度
@@ -124,16 +139,77 @@ var Mario = (function (_super) {
         }
         this.mario = this.createBitmap('sprite.MarioJumping');
         this.addChild(this.mario);
+        // log(this.tilePosition)
     };
     Mario.prototype.fallDown = function () {
         config.gy += config.g;
         this.y += config.gy;
         // this.status = 'fallDown'
-        if (this.y >= 240 - 32 - this.height / 2) {
-            this.y = 240 - 32 - this.height / 2;
-            config.gy = 0;
-            config.jumpvy = config.jumpHeight;
+        this.top = this.y - this.height / 2;
+        this.down = this.y + this.height / 2;
+        this.left = this.x - this.width / 2;
+        this.right = this.x + this.width / 2;
+        // if (this.y >= 240 - 32 - this.height / 2) {
+        //     this.y = 240 - 32 - this.height / 2
+        //     config.gy = 0
+        //     config.jumpvy = config.jumpHeight
+        // }
+        this.onTheGround(this.x, this.y);
+    };
+    /**
+     * onTheGround
+     */
+    Mario.prototype.onTheGround = function (x, y) {
+        // log(this.status, this.x, this.y)
+        for (var i = 0; i < this.tilePosition.length; i++) {
+            var e = this.tilePosition[i];
+            if (e.x + config.tileMapX > 0 && e.x + config.tileMapX < 240) {
+                if (this.down >= e.y && this.top <= e.y + 16) {
+                    if (this.right > e.x + config.tileMapX && this.left < e.x + config.tileMapX + 16) {
+                        // log('地面上', this.x, e.x + config.tileMapX)
+                        this.y = e.y - this.height / 2;
+                        config.gy = 0;
+                        config.jumpvy = config.jumpHeight;
+                    }
+                }
+            }
         }
+    };
+    /**
+     * getBlockPosition
+     */
+    Mario.prototype.getBlockPosition = function () {
+        var positon = [];
+        for (var i = 0; i < this.map.length; i++) {
+            var e = this.map[i];
+            var p = {
+                index: e,
+                x: 0,
+                y: 0,
+            };
+            if (e > -1) {
+                p.x = Math.floor(i / 15) * 16;
+                p.y = i % 15 * 16;
+                positon.push(p);
+            }
+        }
+        return positon;
+    };
+    /**
+     * update
+     */
+    Mario.prototype.update = function () {
+        // 惯性减速
+        if (config.isInertia) {
+            this.inertia(config.direction);
+        }
+        // 急刹车
+        if (config.isBrake) {
+            // this.mario.inertia(config.direction)
+            this.skidding(config.direction);
+        }
+        // log(this.status, this.x,this.y)
+        this.fallDown();
     };
     return Mario;
 }(Page));

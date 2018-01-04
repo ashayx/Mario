@@ -21,6 +21,7 @@ class CreateMap extends Page {
         this.drawGrid()
         this.drawProp(sprite)
         this.mapData = []
+        // 地图宽1200像素
         for (let i = 0; i < 1200 / 16* 15; i++) {
             this.mapData.push(-1)
         }

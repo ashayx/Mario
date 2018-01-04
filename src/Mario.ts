@@ -9,6 +9,7 @@ const config = {
     isInertia: false, 
     isBrake: false,
     direction: 1,
+    tileMapX: 0,
 }
 class Mario extends Page {
     private mario
@@ -16,22 +17,32 @@ class Mario extends Page {
     private scaleNumber: number = 1
     public speed: number 
     private g: number = 1
-    constructor() {
+    private map
+    private tilePosition 
+    private tileMapX 
+    constructor(map) {
         super()
+        this.map = map 
         this.init()
     }
     private init() {
         this.mario = this.createBitmap('sprite.MarioStanding')
         this.addChild(this.mario)
-
+        log(this.height)
         this.setup()
     }
+    private top
+    private down
+    private left
+    private right 
     private setup() {
         this.speed = 0
         this.scaleX = this.scaleY = this.scaleNumber
         this.anchorOffsetX = this.mario.width / 2
         this.anchorOffsetY = this.mario.height / 2
         this.status = 'stand'
+        this.tilePosition = this.getBlockPosition()
+
     }
     public stand() {
         this.speed = 0
@@ -108,6 +119,17 @@ class Mario extends Page {
         this.flipX(this.scaleNumber * direction)
         this.x += this.speed * direction
         // log('move')
+        // for (let i = 0; i < this.tilePosition.length; i++) {
+        //     let e = this.tilePosition[i]
+        //     if (e.x + config.tileMapX > 0 && e.x + config.tileMapX < 240) { // 判断在屏幕内
+        //         if (this.down >= e.y && this.top <= e.y + 16) {
+        //             if (this.right > e.x + config.tileMapX && this.left < e.x + config.tileMapX + 16) {
+        //                 this.x = e.x
+        //                 log('撞墙')
+        //             }
+        //         }
+        //     }
+        // }
     }
     public jump() {
         // 向上弹跳速度
@@ -120,16 +142,82 @@ class Mario extends Page {
         }
         this.mario = this.createBitmap('sprite.MarioJumping')
         this.addChild(this.mario)
+        // log(this.tilePosition)
     }
     public fallDown() {
         config.gy += config.g 
         this.y += config.gy
         // this.status = 'fallDown'
+        this.top = this.y - this.height / 2
+        this.down = this.y + this.height / 2
+        this.left = this.x - this.width / 2
+        this.right = this.x + this.width / 2
         
-        if (this.y >= 240 - 32 - this.height / 2) {
-            this.y = 240 - 32 - this.height / 2
-            config.gy = 0
-            config.jumpvy = config.jumpHeight
+        // if (this.y >= 240 - 32 - this.height / 2) {
+        //     this.y = 240 - 32 - this.height / 2
+        //     config.gy = 0
+        //     config.jumpvy = config.jumpHeight
+        // }
+        this.onTheGround(this.x, this.y)
+    }
+    /**
+     * onTheGround
+     */
+    public onTheGround(x, y) {
+        // log(this.status, this.x, this.y)
+        for (let i = 0; i < this.tilePosition.length; i++) {
+            let e = this.tilePosition[i]
+            if (e.x + config.tileMapX > 0 && e.x + config.tileMapX < 240) { // 判断在屏幕内
+                if (this.down >= e.y && this.top <= e.y + 16 ) {
+                    if (this.right > e.x + config.tileMapX && this.left < e.x + config.tileMapX + 16) {
+                        
+                        // log('地面上', this.x, e.x + config.tileMapX)
+                        this.y = e.y - this.height / 2
+                        config.gy = 0
+                        config.jumpvy = config.jumpHeight
+                    }
+                }
+            }
         }
+        
+        
+    }
+    /**
+     * getBlockPosition
+     */
+    public getBlockPosition() {
+        let positon = []
+        for (let i = 0; i < this.map.length; i++) {
+            let e = this.map[i]
+            let p = {
+                index: e,
+                x: 0,
+                y: 0,
+            }
+            if (e > -1) { // 有砖块
+                p.x = Math.floor(i / 15) * 16
+                p.y = i % 15 * 16
+                positon.push(p)
+            }
+        }
+
+        return positon
+    }
+    /**
+     * update
+     */
+    public update() {
+        // 惯性减速
+        if (config.isInertia) {
+            this.inertia(config.direction)
+        }
+        // 急刹车
+        if (config.isBrake) {
+            // this.mario.inertia(config.direction)
+            this.skidding(config.direction)
+        }
+        
+        // log(this.status, this.x,this.y)
+        this.fallDown()
     }
 }
