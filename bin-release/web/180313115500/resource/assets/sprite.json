@@ -1,0 +1,16 @@
+{"file":"sprite.png","frames":{
+"SuperLuigiCrouching":{"x":18,"y":68,"w":16,"h":22,"offX":0,"offY":0,"sourceW":16,"sourceH":22},
+"SuperLuigiJumping":{"x":36,"y":34,"w":16,"h":32,"offX":0,"offY":0,"sourceW":16,"sourceH":32},
+"SuperLuigiSkidding":{"x":18,"y":34,"w":16,"h":32,"offX":0,"offY":0,"sourceW":16,"sourceH":32},
+"SuperLuigiStanding":{"x":0,"y":34,"w":16,"h":32,"offX":0,"offY":0,"sourceW":16,"sourceH":32},
+"SuperMarioCrouching":{"x":0,"y":68,"w":16,"h":22,"offX":0,"offY":0,"sourceW":16,"sourceH":22},
+"SuperMarioJumping":{"x":36,"y":0,"w":16,"h":32,"offX":0,"offY":0,"sourceW":16,"sourceH":32},
+"SuperMarioSkidding":{"x":18,"y":0,"w":16,"h":32,"offX":0,"offY":0,"sourceW":16,"sourceH":32},
+"SuperMarioStanding":{"x":0,"y":0,"w":16,"h":32,"offX":0,"offY":0,"sourceW":16,"sourceH":32},
+"block":{"x":36,"y":86,"w":16,"h":16,"offX":0,"offY":0,"sourceW":16,"sourceH":16},
+"BrickBlockBrown":{"x":36,"y":68,"w":16,"h":16,"offX":0,"offY":0,"sourceW":16,"sourceH":16},
+"empty":{"x":36,"y":104,"w":16,"h":16,"offX":0,"offY":0,"sourceW":16,"sourceH":16},
+"EmptyBlock":{"x":18,"y":92,"w":16,"h":16,"offX":0,"offY":0,"sourceW":16,"sourceH":16},
+"MarioJumping":{"x":0,"y":92,"w":16,"h":16,"offX":0,"offY":0,"sourceW":16,"sourceH":16},
+"MarioSkidding":{"x":0,"y":110,"w":13,"h":16,"offX":0,"offY":0,"sourceW":13,"sourceH":16},
+"MarioStanding":{"x":15,"y":110,"w":12,"h":16,"offX":0,"offY":0,"sourceW":12,"sourceH":16}}}
