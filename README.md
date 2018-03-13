@@ -1,5 +1,6 @@
 # Mario
 ## 完成了地图编辑器和马里奥的惯性跳跃加速度等，地图交互还未完全实现
+#### h键创建地图，j生成地图，wasd控制，k跳跃
 ---------------------
 #### 地图编码器，生成[0,1,2,3]格式的json地图数据
 ![image](https://github.com/ashayx/Mario/blob/master/resource/1.jpg)</br>
